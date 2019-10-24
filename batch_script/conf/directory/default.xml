@@ -1,0 +1,90 @@
+<!--
+    NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE
+
+    FreeSWITCH works off the concept of users and domains just like email.
+    You have users that are in domains for example 1000@domain.com.
+
+    When freeswitch gets a register packet it looks for the user in the directory
+    based on the from or to domain in the packet depending on how your sofia profile
+    is configured.  Out of the box the default domain will be the IP address of the
+    machine running FreeSWITCH.  This IP can be found by typing "sofia status" at the
+    CLI.  You will register your phones to the IP and not the hostname by default.
+    If you wish to register using the domain please open vars.xml in the root conf
+    directory and set the default domain to the hostname you desire.  Then you would
+    use the domain name in the client instead of the IP address to register
+    with FreeSWITCH.
+
+    NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE
+-->
+
+<include>
+  <!--the domain or ip (the right hand side of the @ in the addr-->
+  <domain name="$${domain}">
+    <params>
+      <param name="dial-string" value="{^^:sip_invite_domain=${dialed_domain}:presence_id=${dialed_user}@${dialed_domain}}${sofia_contact(*/${dialed_user}@${dialed_domain})},${verto_contact(${dialed_user}@${dialed_domain})}"/>
+      <!-- These are required for Verto to function properly -->
+      <param name="jsonrpc-allowed-methods" value="verto"/>
+      <!-- <param name="jsonrpc-allowed-event-channels" value="demo,conference,presence"/> -->
+    </params>
+
+    <variables>
+      <variable name="record_stereo" value="true"/>
+      <variable name="default_gateway" value="$${default_provider}"/>
+      <variable name="default_areacode" value="$${default_areacode}"/>
+      <variable name="transfer_fallback_extension" value="operator"/>
+    </variables>
+
+    <groups>
+      <group name="default">
+		<users>
+		  <X-PRE-PROCESS cmd="include" data="default/*.xml"/>
+		</users>      
+		</group>
+		
+		  <!--	
+			 <group name="acme">
+				<users>
+				  <user id="USER_01" type="pointer"/>
+				  <user id="USER_02" type="pointer"/>
+			 
+				 <user id="USER_03" type="pointer"/>
+				  <user id="USER_04" type="pointer"/>
+				  <user id="USER_05" type="pointer"/>
+				  <user id="USER_06" type="pointer"/>
+				  <user id="USER_07" type="pointer"/>
+				  <user id="USER_08" type="pointer"/>
+				  <user id="USER_09" type="pointer"/>
+				  <user id="USER_10" type="pointer"/>
+				  <user id="USER_11" type="pointer"/>
+				  <user id="USER_12" type="pointer"/>
+				  <user id="USER_13" type="pointer"/>
+				  <user id="USER_14" type="pointer"/>
+				  <user id="USER_15" type="pointer"/>
+				  <user id="USER_16" type="pointer"/>
+				  <user id="USER_17" type="pointer"/>
+				  <user id="USER_18" type="pointer"/>
+				  <user id="USER_19" type="pointer"/>
+				  <user id="USER_20" type="pointer"/>
+				  <user id="USER_21" type="pointer"/>
+				  <user id="USER_22" type="pointer"/>
+				  <user id="USER_23" type="pointer"/>
+				  <user id="USER_24" type="pointer"/>
+				  <user id="USER_25" type="pointer"/>
+				
+				</users>
+			</group>
+	    -->
+     <!--
+	 <group name="support">
+	<users>
+	  <user id="1010" type="pointer"/>
+	  <user id="1011" type="pointer"/>
+	  <user id="1012" type="pointer"/>
+	  <user id="1013" type="pointer"/>
+	  <user id="1014" type="pointer"/>
+	</users>
+      </group>-->
+    </groups>
+
+  </domain>
+</include>

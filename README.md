@@ -1,2 +1,8 @@
-# projet-2-sur-2-pieds
-projet-2-sur-2-pieds created by GitHub Classroom
+# Projet 2 - Sur 2 pieds
+Insérer description
+
+***
+
+Nicolas Dussault-Pilon
+Jean-Philippe Lapointe
+Marc-Olivier Gaudreault-Villeneuve
