@@ -1,0 +1,25 @@
+Added files for most-voip (compiled for python 2.7 32-bits)
+
+.\venv\Lib\site-packages
+
+_pjsua.pyd
+libpjproject.lib
+pjlib.lib
+pjsua.py
+pjsua.pyc
+pjsua-2.9_svn-py2.7.egg-info
+
+For some reasons, it won't compile in x64 with python 2.7 or 3.8
+Might do more investigation.
+
+Compiled using VS2019 with Tools v140 installed (C++ 2015) and Windows 8.1 SDK
+
+Tried 1001 times to compile with GCC on GNU but could build dependencies correctly :(
+
+Important, build target must match python installation.
+Add Additional header files and libraries in C++ linker in VS in order to compile
+Project to use is called 'python_pjsua'
+In .\pjsip-apps\src\python\ , run "py -2.7 setup-vc.py install" to install after compiles .pyd.
+Copy files in C:\Python27\Lib\site-packages to our virtual env.
+
+This took me an entire day and it almost made me go crazy lol. 
