@@ -143,3 +143,4 @@ dkms.conf
 *.db-shm
 *.log
 *.suo
+*.lastbuildstate
