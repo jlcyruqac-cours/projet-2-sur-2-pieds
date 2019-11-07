@@ -144,3 +144,5 @@ dkms.conf
 *.log
 *.suo
 *.lastbuildstate
+vendor/pjsip/UpgradeLog3.htm
+vendor/*.pyd
