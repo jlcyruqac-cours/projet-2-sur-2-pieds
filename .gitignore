@@ -130,3 +130,16 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+*.sbr
+*.log
+*.tlog
+*.tlog
+*.bsc
+*.bsc
+*.db
+*.opendb
+*.db-shm
+*.log
+*.suo
