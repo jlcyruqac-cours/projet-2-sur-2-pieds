@@ -1,0 +1,23 @@
+﻿  amr_sdp_match.c
+  audio_codecs.c
+  bcg729.c
+  ffmpeg_vid_codecs.c
+  g722.c
+  g7221.c
+  g7221_sdp_match.c
+  g722_dec.c
+  g722_enc.c
+  gsm.c
+  h263_packetizer.c
+  h264_packetizer.c
+  ilbc.c
+  ipp_codecs.c
+  l16.c
+  opencore_amr.c
+  opus.c
+  passthrough.c
+  silk.c
+  speex_codec.c
+  Génération de code en cours...
+  openh264.cpp
+  pjmedia_codec.vcxproj -> C:\pjsip\pjmedia\build\..\lib\pjmedia-codec-x86_64-x64-vc14-Release.lib

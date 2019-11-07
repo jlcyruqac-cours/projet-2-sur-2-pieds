@@ -1,0 +1,14 @@
+﻿  account.cpp
+c:\pjsip\pjsip\src\pjsua2\account.cpp(79): warning C4267: '=' : conversion de 'size_t' en 'unsigned int', perte possible de données
+c:\pjsip\pjsip\src\pjsua2\account.cpp(169): warning C4267: '=' : conversion de 'size_t' en 'unsigned int', perte possible de données
+c:\pjsip\pjsip\src\pjsua2\account.cpp(174): warning C4267: '=' : conversion de 'size_t' en 'unsigned int', perte possible de données
+  call.cpp
+  endpoint.cpp
+  json.cpp
+  media.cpp
+  persistent.cpp
+  presence.cpp
+  siptypes.cpp
+  types.cpp
+  Génération de code en cours...
+  pjsua2_lib.vcxproj -> C:\pjsip\pjsip\build\..\lib\pjsua2-lib-x86_64-x64-vc14-Release.lib

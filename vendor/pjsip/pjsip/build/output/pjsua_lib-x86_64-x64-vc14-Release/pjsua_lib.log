@@ -1,0 +1,13 @@
+﻿  pjsua_acc.c
+  pjsua_aud.c
+  pjsua_call.c
+c:\pjsip\pjsip\src\pjsua-lib\pjsua_call.c(4323): warning C4102: 'TODO___HANDLE_FORKED_DIALOG' : étiquette non référencée
+  pjsua_core.c
+c:\pjsip\pjsip\src\pjsua-lib\pjsua_core.c(2850): warning C4102: 'TODO___pjsua_transport_set_enable' : étiquette non référencée
+  pjsua_dump.c
+  pjsua_im.c
+  pjsua_media.c
+  pjsua_pres.c
+  pjsua_vid.c
+  Génération de code en cours...
+  pjsua_lib.vcxproj -> C:\pjsip\pjsip\build\..\lib\pjsua-lib-x86_64-x64-vc14-Release.lib

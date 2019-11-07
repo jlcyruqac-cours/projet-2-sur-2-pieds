@@ -1,0 +1,24 @@
+^C:\PJSIP\PJSIP-APPS\SRC\SWIG\PJSUA2.I
+@echo off
+@echo **************************************************************
+@echo  - Make sure 'swig' and 'javac' locations are in your PATH environment vars.
+@echo  - Make sure Java SDK header file directories
+@echo    (e.g: C:\Program Files (x86)\Java\jdk1.7.0_79\include and C:\Program Files (x86)\Java\jdk1.7.0_79\include\win32)
+@echo    are in your MSVC header search path
+@echo **************************************************************
+
+@echo on
+@echo Building pjsua2.dll to ..\src\swig\java\output\
+mkdir ..\src\swig\java\output\org\pjsip\pjsua2
+swig -c++ -java  -package org.pjsip.pjsua2 -IC:\pjsip\pjsip\include -outdir ..\src\swig\java\output\org\pjsip\pjsua2 -o ..\src\swig\java\output\pjsua2_wrap.cpp C:\pjsip\pjsip-apps\src\swig\pjsua2.i
+javac -d ..\src\swig\java\output\ ..\src\swig\java\output\org\pjsip\pjsua2\*.java
+@echo Building sample app
+javac -d ..\src\swig\java\output\ -classpath ..\src\swig\java\output\ ..\src\swig\java\android\app\src\main\java\org\pjsip\pjsua2\app\MyApp.java
+javac -d ..\src\swig\java\output\ -classpath ..\src\swig\java\output\ ..\src\swig\java\output\..\test.java
+javac -d ..\src\swig\java\output\ -classpath ..\src\swig\java\output\ ..\src\swig\java\output\..\sample.java
+
+@echo **************************************************************
+@echo  After the build completed succesfully, try to run the test app, e.g:
+@echo  java -cp D:\projects\pjproject\pjsip-apps\src\swig\java\output -Djava.library.path="D:\projects\pjproject\pjsip-apps\src\swig\java\output" org.pjsip.pjsua2.app.sample
+@echo **************************************************************
+@echo off

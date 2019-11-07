@@ -1,0 +1,10 @@
+﻿  audiodev.c
+  audiotest.c
+  bdimad_dev.c
+  errno.c
+  legacy_dev.c
+  null_dev.c
+  pa_dev.c
+  wmme_dev.c
+  Génération de code en cours...
+  pjmedia_audiodev.vcxproj -> C:\pjsip\pjmedia\build\..\lib\pjmedia-audiodev-x86_64-x64-vc14-Release.lib

@@ -1,0 +1,12 @@
+﻿  amfilter.cpp
+  amvideo.cpp
+  arithutil.cpp
+  combase.cpp
+  ctlutil.cpp
+  mtype.cpp
+  renbase.cpp
+  wxdebug.cpp
+  wxlist.cpp
+  wxutil.cpp
+  Génération de code en cours...
+  libbaseclasses.vcxproj -> C:\pjsip\third_party\build\baseclasses\..\..\lib\libbaseclasses-x86_64-x64-vc14-Release.lib
