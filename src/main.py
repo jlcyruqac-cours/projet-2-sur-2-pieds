@@ -2,9 +2,10 @@ import pjsua
 
 # add the most.voip library root dir to the current python path...
 import sys
-sys.path.append("../vendor/most-voip/python/src")
+# sys.path.append("../vendor/most-voip/python/src")
+sys.path.append("../vendor/most-voip-python3/python/src")
 
-# import the Voip Library
+# import the Voip Librarye
 from most.voip.api import VoipLib
 
 # instantiate the lib
@@ -27,7 +28,7 @@ print(voip_params)
 
 # define a method used for receive event notifications from the lib:
 def notify_events(voip_event_type, voip_event, params):
-    print "Received Event Type:%s -> Event: %s Params: %s" % (voip_event_type, voip_event, params)
+    print("Received Event Type:%s -> Event: %s Params: %s" % (voip_event_type, voip_event, params))
 
 
 # initialize the lib passing the dictionary and the callback method defined above:

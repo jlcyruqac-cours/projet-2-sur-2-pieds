@@ -1,0 +1,3 @@
+[submodule "external-lib/most-web"]
+	path = external-lib/most-web
+	url = https://github.com/crs4/most.git
