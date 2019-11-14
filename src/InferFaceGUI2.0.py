@@ -1,5 +1,6 @@
 import tkinter as tk                # python 3
-from tkinter import font  as tkfont # python 3
+from tkinter import font as tkfont  # python 3
+
 #import Tkinter as tk     # python 2
 #import tkFont as tkfont  # python 2
 
@@ -11,6 +12,8 @@ class SampleApp(tk.Tk):
         self.title_font30 = tkfont.Font(family='Helvetica', size=30, weight="bold")
         self.title_font25 = tkfont.Font(family='Helvetica', size=25, weight="bold")
         self.title_font15 = tkfont.Font(family='Helvetica', size=15, weight="bold")
+
+        self.title("Uzim")
 
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
@@ -43,12 +46,30 @@ class LoginPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
+        self.columnconfigure(0, weight=0)
+        self.columnconfigure(1, weight=1)
+
+        tk.Label(self, text="First").grid(row=0, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
+        tk.Label(self, text="Second").grid(row=1, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
+
+        e1 = tk.Entry(self)
+        e2 = tk.Entry(self)
+
+        e1.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 10))
+        e2.grid(row=1, column=1, sticky=("S", "E", "W"), padx=(0, 10))
+
+        buttonConnect = tk.Button(self, text="Connexion",
+                                  command=lambda: controller.show_frame("DialPage"), font=controller.title_font30)
+
+        buttonConnect.grid(row=2, columnspan=2)
+
 
        # button2 = tk.Button(self, text="Go to Page Two",
                             #command=lambda: controller.show_frame("PageTwo"))
 
         #button2.pack()
 
+        '''
         labelLogin = tk.Label(self, text="Login", font=controller.title_font15)
         labelLogin.pack(side="top", fill="x")
         eLogin = tk.Entry(self, width=8, textvariable='TextLogin', font=controller.title_font30)
@@ -63,18 +84,27 @@ class LoginPage(tk.Frame):
         buttonConnect = tk.Button(self, text="Connexion",
                             command=lambda: controller.show_frame("DialPage"), font=controller.title_font30)
         buttonConnect.pack()
-
+        '''
 
 class DialPage(tk.Frame):
+
+
+    def enterNumber(self, number):
+        print(number)
+        self.TextNumber.set(self.TextNumber.get() + number)
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+
+        self.TextNumber = tk.StringVar()
+
+
         label = tk.Label(self, text="This is DialPage", font=controller.title_font30)
         label.pack(side="top", fill="x", pady=10)
 
 
-        eAppel = tk.Entry(self, width=8, textvariable='TextNumber', font=controller.title_font30)
+        eAppel = tk.Entry(self, width=8, textvariable=self.TextNumber, font=controller.title_font30)
         eAppel.pack(side="top", fill="x")
 
         buttonAppel = tk.Button(self, text="Appel", font=controller.title_font25,
@@ -84,6 +114,13 @@ class DialPage(tk.Frame):
         buttonSetting = tk.Button(self, text="Setting", font=controller.title_font15,
                            command=lambda: controller.show_frame("LoginPage"))
         buttonSetting.pack()
+
+        button1 = tk.Button(self, text="1", font=controller.title_font15,
+                                  command=lambda: self.enterNumber("1"))
+        button1.pack()
+        button2 = tk.Button(self, text="2", font=controller.title_font15,
+                            command=lambda: self.enterNumber("2"))
+        button2.pack()
 
 
 class OnGoingCallPage(tk.Frame):
