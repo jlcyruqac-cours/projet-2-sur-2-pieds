@@ -1,3 +1,6 @@
+# include all files for virtual env
+!venv36-64/*
+
 # Custom files
 *.bsc 	# Visual Studio Source Browser Information File
 *.tlog 	# Logs
