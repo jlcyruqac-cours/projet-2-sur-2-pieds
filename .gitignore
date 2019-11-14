@@ -148,4 +148,4 @@ vendor/pjsip/UpgradeLog3.htm
 vendor/*.pyd
 
 # include all files for virtual env
-!/venv36-64/
+!/venv36-64/**
