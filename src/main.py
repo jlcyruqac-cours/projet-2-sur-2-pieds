@@ -14,7 +14,7 @@ my_voip = VoipLib()
 # build a dictionary containing all parameters needed for the Lib initialization
 
 voip_params = {  u'username': u'1000',  # a name describing the user
-                 u'sip_server_address': u'192.168.1.183',  # the ip of the remote sip server (default port: 5060)
+                 u'sip_server_address': u'172.16.12.42',  # the ip of the remote sip server (default port: 5060)
                  u'sip_server_user': u'1000', # the username of the sip account
                  u'sip_server_pwd': u'12345',  #  the password of the sip account
                  u'sip_server_transport' :u'udp', # the transport type (default: tcp)
@@ -43,3 +43,4 @@ import time
 # wait until the call is active
 while(True):
     time.sleep(1)
+
