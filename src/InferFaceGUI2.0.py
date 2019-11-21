@@ -49,42 +49,37 @@ class LoginPage(tk.Frame):
         self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=1)
 
-        tk.Label(self, text="First").grid(row=0, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
-        tk.Label(self, text="Second").grid(row=1, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
+        tk.Label(self, text="IP Serveur :").grid(row=0, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
+        tk.Label(self, text="No Poste :").grid(row=1, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
+        tk.Label(self, text="Mot de passe :").grid(row=2, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
 
+        e0 = tk.Entry(self)
         e1 = tk.Entry(self)
         e2 = tk.Entry(self)
-
-        e1.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 10))
-        e2.grid(row=1, column=1, sticky=("S", "E", "W"), padx=(0, 10))
-
-        buttonConnect = tk.Button(self, text="Connexion",
-                                  command=lambda: controller.show_frame("DialPage"), font=controller.title_font30)
-
-        buttonConnect.grid(row=2, columnspan=2)
-
-
-       # button2 = tk.Button(self, text="Go to Page Two",
-                            #command=lambda: controller.show_frame("PageTwo"))
-
-        #button2.pack()
-
-        '''
-        labelLogin = tk.Label(self, text="Login", font=controller.title_font15)
-        labelLogin.pack(side="top", fill="x")
-        eLogin = tk.Entry(self, width=8, textvariable='TextLogin', font=controller.title_font30)
-        eLogin.pack(side="top", fill="x")
-        labelPW = tk.Label(self, text="PassWord", font=controller.title_font15)
-        labelPW.pack(side="top", fill="x")
-        ePW = tk.Entry(self, width=8, textvariable='TextPW', font=controller.title_font30)
-        ePW.pack(side="top", fill="x")
-
-
+        e0.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 10))
+        e1.grid(row=1, column=1, sticky=("S", "E", "W"), padx=(0, 10))
+        e2.grid(row=2, column=1, sticky=("S", "E", "W"), padx=(0, 10))
 
         buttonConnect = tk.Button(self, text="Connexion",
-                            command=lambda: controller.show_frame("DialPage"), font=controller.title_font30)
-        buttonConnect.pack()
-        '''
+                                  command=lambda: controller.show_frame("DialPage"))
+
+        buttonConnect.grid(row=3, columnspan=2)
+
+        tk.Label(self, text="Renvoie Appel : ").grid(row=4, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
+
+
+        e1 = tk.Entry(self)
+
+
+        e1.grid(row=4, column=1, sticky=("S", "E", "W"), padx=(0, 10))
+
+        buttonSave = tk.Button(self, text="Save",
+                                  command=self)
+
+        buttonSave.grid(row=5, columnspan=2)
+
+
+
 
 class DialPage(tk.Frame):
 
@@ -99,28 +94,23 @@ class DialPage(tk.Frame):
 
         self.TextNumber = tk.StringVar()
 
+        self.columnconfigure(0, weight=0)
+        self.columnconfigure(1, weight=1)
 
-        label = tk.Label(self, text="This is DialPage", font=controller.title_font30)
-        label.pack(side="top", fill="x", pady=10)
+        e1 = tk.Entry(self)
 
+        e1.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 0))
 
-        eAppel = tk.Entry(self, width=8, textvariable=self.TextNumber, font=controller.title_font30)
-        eAppel.pack(side="top", fill="x")
+        buttonConnect = tk.Button(self, text="Appel",
+                                  command=lambda: controller.show_frame("OnGoingCallPage"))
 
-        buttonAppel = tk.Button(self, text="Appel", font=controller.title_font25,
-                           command=lambda: controller.show_frame("OnGoingCallPage"))
-        buttonAppel.pack()
+        buttonConnect.grid(row=2, columnspan=2)
 
-        buttonSetting = tk.Button(self, text="Setting", font=controller.title_font15,
-                           command=lambda: controller.show_frame("LoginPage"))
-        buttonSetting.pack()
+        buttonConnect = tk.Button(self, text="Setting",
+                                  command=lambda: controller.show_frame("LoginPage"))
 
-        button1 = tk.Button(self, text="1", font=controller.title_font15,
-                                  command=lambda: self.enterNumber("1"))
-        button1.pack()
-        button2 = tk.Button(self, text="2", font=controller.title_font15,
-                            command=lambda: self.enterNumber("2"))
-        button2.pack()
+        buttonConnect.grid(row=3, columnspan=2)
+
 
 
 class OnGoingCallPage(tk.Frame):
@@ -128,11 +118,17 @@ class OnGoingCallPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text="This is OnGoingCall Page", font=controller.title_font30)
-        label.pack(side="top", fill="x", pady=10)
-        button = tk.Button(self, text="Go to DialPage",
-                           command=lambda: controller.show_frame("DialPage"))
-        button.pack()
+        tk.Label(self, text="OnGoingCall").grid(row=0, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
+
+        buttonAnswer = tk.Button(self, text="Repondre",
+                                 command=self)
+
+        buttonAnswer.grid(row=1, columnspan=2)
+        buttonEndCall = tk.Button(self, text="End Call",
+                               command=lambda: controller.show_frame("DialPage"))
+
+        buttonEndCall.grid(row=2, columnspan=2)
+
 
 
 if __name__ == "__main__":
