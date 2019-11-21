@@ -94,8 +94,8 @@ class SampleApp(tk.Tk):
 
                 dur = 4
                 print("Waiting %s seconds before hanging up..." % dur)
-                time.sleep(dur)
-                self.my_voip.hangup_call()
+                # time.sleep(dur)
+                # self.my_voip.hangup_call()
 
 
 
@@ -109,6 +109,9 @@ class SampleApp(tk.Tk):
             elif (voip_event == VoipEvent.LIB_DEINITIALIZED):
                 print("Call End. Exiting from the app.")
                 end_of_call = True
+
+            elif (voip_event == VoipEvent.CALL_DIALING):
+                time.sleep(1)
 
             # just print informations about other events triggered by the library
             else:
