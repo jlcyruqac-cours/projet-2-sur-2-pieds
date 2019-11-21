@@ -49,16 +49,17 @@ class SampleApp(tk.Tk):
         frame = self.frames[page_name]
         frame.tkraise()
 
-    def login_on_server(self):
-        self.voip_params = {u'username': u'1000',  # a name describing the user
-                            u'sip_server_address': u'172.16.12.42',
+    def login_on_server(self, Username, Password, ServerIP):
+        self.voip_params = {u'username': Username,  # a name describing the user
+                            u'sip_server_address': ServerIP,
                             # the ip of the remote sip server (default port: 5060)
-                            u'sip_server_user': u'1000',  # the username of the sip account
-                            u'sip_server_pwd': u'12345',  # the password of the sip account
+                            u'sip_server_user': Username,  # the username of the sip account
+                            u'sip_server_pwd': Password,  # the password of the sip account
                             u'sip_server_transport': u'udp',  # the transport type (default: tcp)
                             u'log_level': 1,  # the log level (greater values provide more informations)
                             u'debug': False  # enable/disable debugging messages
                             }
+        print(self.voip_params)
         import time
         end_of_call = False  # used as exit condition from the while loop at the end of this example
 
@@ -116,7 +117,8 @@ class SampleApp(tk.Tk):
 class LoginPage(tk.Frame):
 
     def connexion(self):
-        self.controller.login_on_server()
+        #print(self.Username.get())
+        self.controller.login_on_server(self.Username.get(), self.Password.get(), self.ServerIP.get())
         self.controller.show_frame("DialPage")
 
     def __init__(self, parent, controller):
@@ -126,13 +128,18 @@ class LoginPage(tk.Frame):
         self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=1)
 
+        self.Username = tk.StringVar()
+        self.Password = tk.StringVar()
+        self.ServerIP = tk.StringVar()
+
         tk.Label(self, text="IP Serveur :").grid(row=0, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
         tk.Label(self, text="No Poste :").grid(row=1, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
         tk.Label(self, text="Mot de passe :").grid(row=2, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
 
-        e0 = tk.Entry(self)
-        e1 = tk.Entry(self)
-        e2 = tk.Entry(self)
+        e0 = tk.Entry(self, textvariable=self.ServerIP)
+        e1 = tk.Entry(self, textvariable=self.Username)
+        e2 = tk.Entry(self, textvariable=self.Password)
+
         e0.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 10))
         e1.grid(row=1, column=1, sticky=("S", "E", "W"), padx=(0, 10))
         e2.grid(row=2, column=1, sticky=("S", "E", "W"), padx=(0, 10))
