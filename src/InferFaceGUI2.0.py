@@ -25,6 +25,11 @@ class SampleApp(tk.Tk):
         # instantiate the lib
         self.my_voip = VoipLib()
 
+        # Create call variables
+        self.Appel1 = None
+        self.Appel2 = None
+
+
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -73,10 +78,15 @@ class SampleApp(tk.Tk):
 
             # event triggered when a new call is incoming
             elif (voip_event == VoipEvent.CALL_INCOMING):
-                print("INCOMING CALL From %s" % params["from"])
-                time.sleep(2)
-                print("Answering...")
-                self.my_voip.answer_call()
+
+                if self.Appel1 == None:
+                    self.show_frame("DialPage")
+                    self.my_voip.answer_call()
+
+                # print("INCOMING CALL From %s" % params["from"])
+                # time.sleep(2)
+                # print("Answering...")
+                # self.my_voip.answer_call()
 
             # event triggered when the call has been established
             elif (voip_event == VoipEvent.CALL_ACTIVE):
@@ -172,6 +182,11 @@ class DialPage(tk.Frame):
         print(number)
         self.TextNumber.set(self.TextNumber.get() + number)
 
+    def makeCall(self):
+        self.controller.Appel1 = self.controller.my_voip.make_call(self.TextNumber)
+        self.controller.show_frame("OnGoingCallPage")
+        self.TextNumber.set("")
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -186,7 +201,7 @@ class DialPage(tk.Frame):
         e1.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 0))
 
         buttonConnect = tk.Button(self, text="Appel",
-                                  command=lambda: controller.show_frame("OnGoingCallPage"))
+                                  command=lambda: self.makeCall())
 
         buttonConnect.grid(row=2, columnspan=2)
 
@@ -199,20 +214,35 @@ class DialPage(tk.Frame):
 
 class OnGoingCallPage(tk.Frame):
 
+    def endCall(self):
+        self.controller.my_voip.hangup_call()
+        self.controller.Appel1 = None
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        tk.Label(self, text="OnGoingCall").grid(row=0, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
+        tk.Label(self, text="OnGoingCall1").grid(row=0, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
+        tk.Label(self, text="OnGoingCall2").grid(row=0, column=1, sticky="W", pady=(0, 0), padx=(0, 0))
 
-        buttonAnswer = tk.Button(self, text="Repondre",
-                                 command=self)
+        tk.Label(self, text="EtatAppel1").grid(row=1, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
+        tk.Label(self, text="EtatAppel2").grid(row=1, column=1, sticky="W", pady=(0, 0), padx=(0, 0))
 
-        buttonAnswer.grid(row=1, columnspan=2)
-        buttonEndCall = tk.Button(self, text="End Call",
+        buttonAnswer1 = tk.Button(self, text="Repondre 1", command=self)
+        buttonAnswer1.grid(row=2, column=0)
+
+        buttonAnswer2 = tk.Button(self, text="Repondre 2", command=self)
+        buttonAnswer2.grid(row=2, column=1)
+
+        buttonEndCall1 = tk.Button(self, text="End Call",
                                command=lambda: controller.show_frame("DialPage"))
+        buttonEndCall1.grid(row=3, column=0)
+        buttonEndCall2 = tk.Button(self, text="End Call",
+                                   command=lambda: controller.show_frame("DialPage"))
+        buttonEndCall2.grid(row=3, column=1)
 
-        buttonEndCall.grid(row=2, columnspan=2)
-
+        buttonRetour = tk.Button(self, text="Back",
+                                   command=lambda: controller.show_frame("DialPage"))
+        buttonRetour.grid(row=4, column=0, columnspan=2)
 
 
 if __name__ == "__main__":
