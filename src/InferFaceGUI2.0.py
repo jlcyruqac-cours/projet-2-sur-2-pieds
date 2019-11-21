@@ -103,7 +103,7 @@ class SampleApp(tk.Tk):
             elif (voip_event in [VoipEvent.CALL_REMOTE_DISCONNECTION_HANGUP, VoipEvent.CALL_REMOTE_HANGUP,
                                  VoipEvent.CALL_HANGUP]):
                 print("End of call. Destroying lib...")
-                self.my_voip.destroy_lib()
+                #self.my_voip.destroy_lib()
 
             # event triggered when the library was destroyed
             elif (voip_event == VoipEvent.LIB_DEINITIALIZED):
