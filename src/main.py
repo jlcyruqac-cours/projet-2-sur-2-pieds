@@ -36,7 +36,7 @@ my_voip.init_lib(voip_params, notify_events)
 print(my_voip.register_account())
 
 
-my_extension = "1234"
+my_extension = "1001"
 my_voip.make_call(my_extension)
 
 import time

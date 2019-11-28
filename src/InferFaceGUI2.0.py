@@ -1,6 +1,8 @@
 import tkinter as tk                # python 3
+import tkinter.messagebox
 from tkinter import font as tkfont  # python 3
 import sys
+import time
 sys.path.append("../vendor/most-voip-python3/python/src")
 
 # import the Voip Librarye
@@ -38,16 +40,21 @@ class SampleApp(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
-        self.frames["LoginPage"] = LoginPage(parent=container, controller=self)
-        self.frames["DialPage"] = DialPage(parent=container, controller=self)
-        self.frames["OnGoingCallPage"] = OnGoingCallPage(parent=container, controller=self)
+        self.frames = {"LoginPage": LoginPage(parent=container, controller=self),
+                       "DialPage": DialPage(parent=container, controller=self),
+                       "OnGoingCallPage": OnGoingCallPage(parent=container, controller=self)}
 
         self.frames["LoginPage"].grid(row=0, column=0, sticky="nsew")
         self.frames["DialPage"].grid(row=0, column=0, sticky="nsew")
         self.frames["OnGoingCallPage"].grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("LoginPage")
+
+    def show_error(self, message):
+        if "error" in message:
+            message = message["error"]
+        tk.messagebox.showerror("Error", message)
+
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
@@ -65,12 +72,15 @@ class SampleApp(tk.Tk):
                             u'debug': False  # enable/disable debugging messages
                             }
         print(self.voip_params)
-        import time
         end_of_call = False  # used as exit condition from the while loop at the end of this example
 
         # implement a method that will capture all the events triggered by the Voip Library
         def notify_events(voip_event_type, voip_event, params):
             print("Received Event Type:%s  Event:%s -> Params: %s" % (voip_event_type, voip_event, params))
+
+            if "error" in params:
+                self.show_error(params["error"])
+                return
 
             # event triggered when the account registration has been confirmed by the remote Sip Server
             if (voip_event == VoipEvent.ACCOUNT_REGISTERED):
@@ -138,6 +148,8 @@ class LoginPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
+        print("init login")
+
         self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=1)
 
@@ -180,15 +192,25 @@ class LoginPage(tk.Frame):
 
 class DialPage(tk.Frame):
 
-
     def enterNumber(self, number):
         print(number)
         self.TextNumber.set(self.TextNumber.get() + number)
 
     def makeCall(self):
-        self.controller.Appel1 = self.controller.my_voip.make_call(self.TextNumber)
-        self.controller.show_frame("OnGoingCallPage")
-        self.TextNumber.set("")
+        print(self.TextNumber.get())
+        self.controller.my_voip.make_call(self.TextNumber.get())
+
+        '''
+        if self.controller.my_voip.make_call(self.TextNumber):
+            self.controller.Appel1 = self.controller.my_voip.get_call()
+            print(self.controller.Appel1)
+            while (True):
+                time.sleep(1)
+            self.controller.show_frame("OnGoingCallPage")
+            self.TextNumber.set("")
+        else:
+            tk.messagebox.showwarning("Warning", "Call failed.")
+        '''
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -199,7 +221,7 @@ class DialPage(tk.Frame):
         self.columnconfigure(0, weight=0)
         self.columnconfigure(1, weight=1)
 
-        e1 = tk.Entry(self)
+        e1 = tk.Entry(self, textvariable=self.TextNumber)
 
         e1.grid(row=0, column=1, sticky=("S", "E", "W"), padx=(0, 0))
 
