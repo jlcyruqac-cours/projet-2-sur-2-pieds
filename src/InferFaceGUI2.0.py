@@ -197,20 +197,16 @@ class DialPage(tk.Frame):
         self.TextNumber.set(self.TextNumber.get() + number)
 
     def makeCall(self):
-        print(self.TextNumber.get())
-        self.controller.my_voip.make_call(self.TextNumber.get())
+        extension = self.TextNumber.get()
+        if extension == "":
+            return
 
-        '''
-        if self.controller.my_voip.make_call(self.TextNumber):
+        if self.controller.my_voip.make_call(extension):
             self.controller.Appel1 = self.controller.my_voip.get_call()
-            print(self.controller.Appel1)
-            while (True):
-                time.sleep(1)
             self.controller.show_frame("OnGoingCallPage")
             self.TextNumber.set("")
         else:
             tk.messagebox.showwarning("Warning", "Call failed.")
-        '''
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
