@@ -1670,6 +1670,7 @@ class Call:
         hdr_list -- Optional list of headers to be sent with the
                     message.
         """
+        print("HOLD ID: %s" % self._id)
         lck = self._lib().auto_lock()
         err = _pjsua.call_set_hold(self._id, Lib._create_msg_data(hdr_list))
         self._lib()._err_check("hold()", self, err)
@@ -1745,7 +1746,7 @@ class Call:
         """
         lck = self._lib().auto_lock()
         err = _pjsua.call_xfer_replaces(self._id, call._id, options,
-                                          Lib._create_msg_data(hdr_list))
+        Lib._create_msg_data(hdr_list))
         self._lib()._err_check("transfer_to_call()", self, err)
 
     def dial_dtmf(self, digits):
@@ -1756,8 +1757,11 @@ class Call:
         digits  -- DTMF digit string.
 
         """
+        print("From pjsua: %s" %digits)
+        print("DTMF ID: %s" % self._id)
         lck = self._lib().auto_lock()
         err = _pjsua.call_dial_dtmf(self._id, digits)
+        print(err)
         self._lib()._err_check("dial_dtmf()", self, err)
 
     def send_request(self, method, hdr_list=None, content_type=None,

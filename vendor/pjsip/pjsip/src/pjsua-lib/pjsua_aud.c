@@ -194,9 +194,10 @@ PJ_DEF(pj_status_t) pjsua_call_dial_dtmf( pjsua_call_id call_id,
     pjsua_call *call;
     pjsip_dialog *dlg = NULL;
     pj_status_t status;
-
+	   	
     PJ_ASSERT_RETURN(call_id>=0 && call_id<(int)pjsua_var.ua_cfg.max_calls,
 		     PJ_EINVAL);
+	
 
     PJ_LOG(4,(THIS_FILE, "Call %d dialing DTMF %.*s",
     			 call_id, (int)digits->slen, digits->ptr));
@@ -204,12 +205,12 @@ PJ_DEF(pj_status_t) pjsua_call_dial_dtmf( pjsua_call_id call_id,
 
     status = acquire_call("pjsua_call_dial_dtmf()", call_id, &call, &dlg);
     if (status != PJ_SUCCESS)
-	goto on_return;
+		goto on_return;
 
     if (!pjsua_call_has_media(call_id)) {
-	PJ_LOG(3,(THIS_FILE, "Media is not established yet!"));
-	status = PJ_EINVALIDOP;
-	goto on_return;
+		PJ_LOG(3,(THIS_FILE, "Media is not established yet!"));
+		status = PJ_EINVALIDOP;
+		goto on_return;
     }
 
     status = pjmedia_stream_dial_dtmf(

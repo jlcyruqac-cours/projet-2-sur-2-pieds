@@ -1161,6 +1161,26 @@ class VoipBackend:
             logger.exception("Pjsip Error in hangup call:%s" % er) 
             return False
 
+    def send_dtmf(self, digits):
+        #global refused
+        logger.debug( "Send DTMF Request")
+        try:   
+            global current_call
+            print("sending dtmf (%s)" % digits)
+            if current_call:
+                print("call not null")
+                logger.debug("Sending DTMF (%s) (current_call!=null)." % digits)
+                current_call.dial_dtmf(digits)
+            else:
+                logger.debug("There is no call to send DTMFs")
+
+        except Exception as ex:
+            logger.exception("Exception in send dtmf call:%s" % ex) 
+            return False
+        
+        except pj.Error as er:
+            logger.exception("Pjsip Error send dtmf:%s" % er) 
+            return False
 
     def hold_call(self):
         try:

@@ -188,7 +188,7 @@ static void cb_on_call_media_state(pjsua_call_id call_id)
 
 
 /*
- * cb_on_dtmf_digit()
+ * b_on_dtmf_digit()
  * Callback from PJSUA-LIB on receiving DTMF digit
  */
 static void cb_on_dtmf_digit(pjsua_call_id call_id, int digit)
@@ -3651,7 +3651,7 @@ static PyObject *py_pjsua_call_xfer_replaces(PyObject *pSelf, PyObject *pArgs)
  * py_pjsua_call_dial_dtmf
  */
 static PyObject *py_pjsua_call_dial_dtmf(PyObject *pSelf, PyObject *pArgs)
-{    	
+{
     int call_id;
     PyObject *pDigits;
     pj_str_t digits;
@@ -3663,8 +3663,10 @@ static PyObject *py_pjsua_call_dial_dtmf(PyObject *pSelf, PyObject *pArgs)
         return NULL;
     }
 
+	/*
     if (!PyBytes_Check(pDigits))
 	return Py_BuildValue("i", PJ_EINVAL);
+	*/
 
     digits = PyUnicode_ToPJ(pDigits);
     status = pjsua_call_dial_dtmf(call_id, &digits);

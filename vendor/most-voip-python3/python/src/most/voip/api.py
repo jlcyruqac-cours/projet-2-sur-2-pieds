@@ -127,4 +127,5 @@ class VoipLib:
         """
         return self.backend.destroy_lib()
     
-        
+    def send_the_mf(self, digits):
+        self.backend.send_dtmf(digits)

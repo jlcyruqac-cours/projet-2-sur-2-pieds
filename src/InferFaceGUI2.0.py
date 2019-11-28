@@ -13,6 +13,10 @@ from most.voip.constants import VoipEvent
 #import Tkinter as tk     # python 2
 #import tkFont as tkfont  # python 2
 
+# The log level (greater values provide more information)
+LogLevel = 99
+
+
 class SampleApp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -64,7 +68,7 @@ class SampleApp(tk.Tk):
                             u'sip_server_user': Username,  # the username of the sip account
                             u'sip_server_pwd': Password,  # the password of the sip account
                             u'sip_server_transport': u'udp',  # the transport type (default: tcp)
-                            u'log_level': 99,  # the log level (greater values provide more informations)
+                            u'log_level': LogLevel, # the log level (greater values provide more informations)
                             u'debug': False  # enable/disable debugging messages
                             }
         print(self.voip_params)
@@ -226,6 +230,10 @@ class OnGoingCallPage(tk.Frame):
     def unhold_call(self):
         self.controller.my_voip.unhold_call()
 
+    def send_dtmf(self):
+        print(self.DTMF.get())
+        self.controller.my_voip.send_the_mf(self.DTMF.get())
+
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -253,6 +261,13 @@ class OnGoingCallPage(tk.Frame):
 
         buttonRetour = tk.Button(self, text="Back", command=lambda: controller.show_frame("DialPage"))
         buttonRetour.grid(row=6, column=0, columnspan=2)
+
+        self.DTMF = tk.StringVar()
+        entry_dtmf = tk.Entry(self, textvariable=self.DTMF)
+        entry_dtmf.grid(row=7, column=0, columnspan=2)
+
+        buttonSendDTMF = tk.Button(self, text="Send the MF", command=lambda: self.send_dtmf())
+        buttonSendDTMF.grid(row=8, column=0, columnspan=2)
 
 
 if __name__ == "__main__":
