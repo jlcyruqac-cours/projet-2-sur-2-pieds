@@ -27,11 +27,6 @@ class SampleApp(tk.Tk):
         # instantiate the lib
         self.my_voip = VoipLib()
 
-        # Create call variables
-        self.Appel1 = None
-        self.Appel2 = None
-
-
         # the container is where we'll stack a bunch of frames
         # on top of each other, then the one we want visible
         # will be raised above the others
@@ -58,6 +53,7 @@ class SampleApp(tk.Tk):
 
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
+        print(page_name)
         frame = self.frames[page_name]
         frame.tkraise()
 
@@ -68,7 +64,7 @@ class SampleApp(tk.Tk):
                             u'sip_server_user': Username,  # the username of the sip account
                             u'sip_server_pwd': Password,  # the password of the sip account
                             u'sip_server_transport': u'udp',  # the transport type (default: tcp)
-                            u'log_level': 1,  # the log level (greater values provide more informations)
+                            u'log_level': 99,  # the log level (greater values provide more informations)
                             u'debug': False  # enable/disable debugging messages
                             }
         print(self.voip_params)
@@ -88,32 +84,18 @@ class SampleApp(tk.Tk):
 
             # event triggered when a new call is incoming
             elif (voip_event == VoipEvent.CALL_INCOMING):
-
-                if self.Appel1 == None:
-                    self.show_frame("DialPage")
-                    self.my_voip.answer_call()
-
-                # print("INCOMING CALL From %s" % params["from"])
-                # time.sleep(2)
-                # print("Answering...")
-                # self.my_voip.answer_call()
+                print("INCOMING CALL From %s" % params["from"])
+                self.show_frame("OnGoingCallPage")
 
             # event triggered when the call has been established
             elif (voip_event == VoipEvent.CALL_ACTIVE):
                 print("The call with %s has been established" % self.my_voip.get_call().get_remote_uri())
 
-                dur = 4
-                print("Waiting %s seconds before hanging up..." % dur)
-                # time.sleep(dur)
-                # self.my_voip.hangup_call()
-
-
-
             # events triggered when the call ends for some reasons
             elif (voip_event in [VoipEvent.CALL_REMOTE_DISCONNECTION_HANGUP, VoipEvent.CALL_REMOTE_HANGUP,
                                  VoipEvent.CALL_HANGUP]):
                 print("End of call. Destroying lib...")
-                #self.my_voip.destroy_lib()
+                # self.my_voip.destroy_lib()
 
             # event triggered when the library was destroyed
             elif (voip_event == VoipEvent.LIB_DEINITIALIZED):
@@ -171,20 +153,12 @@ class LoginPage(tk.Frame):
 
         buttonConnect = tk.Button(self, text="Connexion",
                                   command=lambda: self.connexion())
-
         buttonConnect.grid(row=3, columnspan=2)
-
         tk.Label(self, text="Renvoie Appel : ").grid(row=4, column=0, sticky="W", pady=(10, 0), padx=(10, 0))
-
-
         e1 = tk.Entry(self)
-
-
         e1.grid(row=4, column=1, sticky=("S", "E", "W"), padx=(0, 10))
-
         buttonSave = tk.Button(self, text="Save",
                                   command=self)
-
         buttonSave.grid(row=5, columnspan=2)
 
 
@@ -202,7 +176,6 @@ class DialPage(tk.Frame):
             return
 
         if self.controller.my_voip.make_call(extension):
-            self.controller.Appel1 = self.controller.my_voip.get_call()
             self.controller.show_frame("OnGoingCallPage")
             self.TextNumber.set("")
         else:
@@ -236,34 +209,50 @@ class DialPage(tk.Frame):
 class OnGoingCallPage(tk.Frame):
 
     def endCall(self):
+        print("Hagning up call")
+        print(self.controller.my_voip)
         self.controller.my_voip.hangup_call()
-        self.controller.Appel1 = None
+
+    def answer_call(self):
+        self.controller.my_voip.answer_call()
+        # self.update_status()
+
+    def update_status(self):
+        return
+
+    def hold_call(self):
+        self.controller.my_voip.hold_call()
+
+    def unhold_call(self):
+        self.controller.my_voip.unhold_call()
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        tk.Label(self, text="OnGoingCall1").grid(row=0, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
-        tk.Label(self, text="OnGoingCall2").grid(row=0, column=1, sticky="W", pady=(0, 0), padx=(0, 0))
 
-        tk.Label(self, text="EtatAppel1").grid(row=1, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
-        tk.Label(self, text="EtatAppel2").grid(row=1, column=1, sticky="W", pady=(0, 0), padx=(0, 0))
+        # print(self.controller.Appel1.get_state())
+        # print(self.controller.Appel1.get_remote_uri())
 
-        buttonAnswer1 = tk.Button(self, text="Repondre 1", command=self)
-        buttonAnswer1.grid(row=2, column=0)
+        tk.Label(self, text="OnGoingCall").grid(row=0, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
+        self.etat = tk.Label(self, text="---")
+        self.etat.grid(row=1, column=0, sticky="W", pady=(0, 0), padx=(0, 0))
 
-        buttonAnswer2 = tk.Button(self, text="Repondre 2", command=self)
-        buttonAnswer2.grid(row=2, column=1)
+        self.update_status()
 
-        buttonEndCall1 = tk.Button(self, text="End Call",
-                               command=lambda: controller.show_frame("DialPage"))
-        buttonEndCall1.grid(row=3, column=0)
-        buttonEndCall2 = tk.Button(self, text="End Call",
-                                   command=lambda: controller.show_frame("DialPage"))
-        buttonEndCall2.grid(row=3, column=1)
+        buttonAnswer = tk.Button(self, text="Repondre", command=lambda: self.answer_call())
+        buttonAnswer.grid(row=2, column=0)
 
-        buttonRetour = tk.Button(self, text="Back",
-                                   command=lambda: controller.show_frame("DialPage"))
-        buttonRetour.grid(row=4, column=0, columnspan=2)
+        btnHold = tk.Button(self, text="Hold", command=lambda: self.hold_call())
+        btnHold.grid(row=3, column=0)
+
+        btnUnhold = tk.Button(self, text="Unhold", command=lambda: self.unhold_call())
+        btnUnhold.grid(row=4, column=0)
+
+        buttonEndCall = tk.Button(self, text="End Call", command=lambda: self.endCall())
+        buttonEndCall.grid(row=5, column=0)
+
+        buttonRetour = tk.Button(self, text="Back", command=lambda: controller.show_frame("DialPage"))
+        buttonRetour.grid(row=6, column=0, columnspan=2)
 
 
 if __name__ == "__main__":

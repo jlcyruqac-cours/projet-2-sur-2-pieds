@@ -1134,7 +1134,8 @@ class VoipBackend:
     
     def hangup_call(self):
         #global refused
-        #refused = True
+        #refused = True		
+        print("API BACKEND HANG UP")
         logger.debug( "HANGUP Request")
         try:
             _stop_call_sound()

@@ -45,7 +45,7 @@ echo Copie des fichiers de configuration du serveur
 xcopy "%~dp0\conf" "C:\Program Files\FreeSWITCH\conf" /r /s /y /v /q
 
 echo Demarrage du serveur FreeSwitch
-"C:\Program Files\FreeSWITCH\FreeSwitchConsole.exe"
+"C:\Program Files\FreeSWITCH\FreeSwitchConsole.exe" -nonat
 
 goto :end
 
