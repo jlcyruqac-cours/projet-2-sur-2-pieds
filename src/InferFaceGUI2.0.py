@@ -49,7 +49,7 @@ class Uzim(tk.Tk):
         self.show_frame("LoginPage")
 
     def show_error(self, message):
-        if "error" in message:
+        if isinstance(message, dict) and "error" in message:
             message = message["error"]
         tk.messagebox.showerror("Error", message)
 
@@ -71,7 +71,6 @@ class Uzim(tk.Tk):
                             u'debug': False  # enable/disable debugging messages
                             }
         print(self.voip_params)
-        end_of_call = False  # used as exit condition from the while loop at the end of this example
 
         # implement a method that will capture all the events triggered by the Voip Library
         def notify_events(voip_event_type, voip_event, params):
@@ -80,6 +79,8 @@ class Uzim(tk.Tk):
             if "error" in params:
                 self.show_error(params["error"])
                 return
+
+            self.frames["OnGoingCallPage"].update_status()
 
             # event triggered when the account registration has been confirmed by the remote Sip Server
             if (voip_event == VoipEvent.ACCOUNT_REGISTERED):
@@ -108,18 +109,28 @@ class Uzim(tk.Tk):
             elif (voip_event == VoipEvent.CALL_DIALING):
                 time.sleep(1)
 
+            elif (voip_event == VoipEvent.LIB_INITIALIZATION_FAILED):
+                print("Lib init failed. Destroying lib...")
+                self.my_voip.destroy_lib()
+
             # just print informations about other events triggered by the library
             else:
                 print("Received unhandled event type:%s --> %s" % (voip_event_type, voip_event))
+
+        # Unregister account
+        # self.my_voip.unregister_account()
+
+        # Destroy lib
+        self.my_voip.destroy_lib()
+
+        # Recreate lib
+        self.my_voip = VoipLib()
 
         # initialize the lib passing the dictionary and the callback method defined above:
         self.my_voip.init_lib(self.voip_params, notify_events)
 
         # register the account
         self.my_voip.register_account()
-
-        #while (end_of_call == False):
-         #   time.sleep(2)
 
 
 if __name__ == "__main__":
